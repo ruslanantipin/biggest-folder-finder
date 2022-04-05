@@ -1,11 +1,22 @@
 import java.io.File;
+import java.util.concurrent.ForkJoinPool;
 
 public class Main {
     public static void main(String[] args) {
-        String folderPath = "C:\\Base1c\\СредстваУправленияДоступом";
+
+        String folderPath = "E:\\С телефона";
         File file = new File(folderPath);
 
-        System.out.println(getFolderSize(file));
+        Long start = System.currentTimeMillis();
+
+        FolderSizeCalculator calculator = new FolderSizeCalculator(file);
+        ForkJoinPool pool = new ForkJoinPool();
+        Long size = pool.invoke(calculator);
+        System.out.println(size);
+        //System.out.println(getFolderSize(file));
+
+        Long duration = (System.currentTimeMillis() - start);
+        System.out.println(duration + " ms");
     }
 
     public static long getFolderSize(File folder){
